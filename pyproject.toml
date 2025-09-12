@@ -15,14 +15,14 @@ exclude = ["Types"]
 
 [project]
 name = "SPODESext"
-version = "0.0.2"
+version = "0.0.4"
 requires-python = ">= 3.12"
 authors = [
     {name="Serj Kotilevski", email="youserj@outlook.com"}
 ]
 dependencies = [
-    "DLMS_SPODES_client >= 0.18.6, <0.19",
-    "DLMS_SPODES >= 0.86.21"
+    "DLMS_SPODES_client >= 0.19.1, <0.20",
+    "DLMS_SPODES >= 0.87.1"
 ]
 description="extiontions over DLMS"
 readme = "README.md"
