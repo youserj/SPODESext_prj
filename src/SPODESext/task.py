@@ -62,16 +62,16 @@ class ChangeDisconnectControlState(task.OK):
         transitions: str = mode.get_letters(int(obj.control_mode))
         match int(state), self.state:
             case 0, 1 if "a" in transitions:
-                if isinstance(res2 := await task.Execute2(par.remote_reconnect, integers.Only0()).exchange(c), result.Error):
+                if isinstance(res2 := await task.Execute2(par.remote_reconnect, integers.INTEGER_0).exchange(c), result.Error):
                     return res2
             case 0, 2 if "d" in transitions:
-                if isinstance(res2 := await task.Execute2(par.remote_reconnect, integers.Only0()).exchange(c), result.Error):
+                if isinstance(res2 := await task.Execute2(par.remote_reconnect, integers.INTEGER_0).exchange(c), result.Error):
                     return res2
             case 1, 0 if "b" in transitions:
-                if isinstance(res2 := await task.Execute2(par.remote_disconnect, integers.Only0()).exchange(c), result.Error):
+                if isinstance(res2 := await task.Execute2(par.remote_disconnect, integers.INTEGER_0).exchange(c), result.Error):
                     return res2
             case 2, 0 if "c" in transitions:
-                if isinstance(res2 := await task.Execute2(par.remote_disconnect, integers.Only0()).exchange(c), result.Error):
+                if isinstance(res2 := await task.Execute2(par.remote_disconnect, integers.INTEGER_0).exchange(c), result.Error):
                     return res2
             case 2, 1 if "c" in transitions and "a" in transitions:
                 if isinstance(res3 := await task.Sequence(

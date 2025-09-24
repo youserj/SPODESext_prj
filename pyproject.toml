@@ -15,14 +15,14 @@ exclude = ["Types"]
 
 [project]
 name = "SPODESext"
-version = "0.0.4"
+version = "0.0.5"
 requires-python = ">= 3.12"
 authors = [
     {name="Serj Kotilevski", email="youserj@outlook.com"}
 ]
 dependencies = [
-    "DLMS_SPODES_client >= 0.19.1, <0.20",
-    "DLMS_SPODES >= 0.87.1"
+    "DLMS_SPODES_client >= 0.19.5, <0.20",
+    "DLMS_SPODES >= 0.87.6"
 ]
 description="extiontions over DLMS"
 readme = "README.md"
@@ -52,6 +52,7 @@ ignore_missing_imports = true
 disallow_any_generics = true
 explicit_package_bases = true
 disallow_subclassing_any = true
+disallow_any_explicit = true
 
 [tool.ruff]
 src = ["src"]
