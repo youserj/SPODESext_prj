@@ -1,15 +1,13 @@
 import asyncio
-import itertools
 import time
 import unittest
-from DLMS_SPODES.pardata import ParValues, Parameter
 from DLMS_SPODES.types import cdt
 from DLMS_SPODES.cosem_interface_classes import collection
 from DLMSAdapter.xml_ import xml50
 from DLMSCommunicationProfile.HDLC.hdlc import HDLCParameters, HDLC
 from StructResult import result, formatter
 from DLMS_SPODES_communications import Network, Serial, RS485, BLEKPZ
-from DLMS_SPODES_client.client import Client, IDFactory, logL
+from DLMS_SPODES_client.client import Client, IDFactory
 from DLMS_SPODES_client.session import DistributedTask, Session
 from DLMS_SPODES_client import session
 from DLMS_SPODES_client import task
@@ -49,12 +47,13 @@ class TestType(unittest.TestCase):
         asyncio.run(coro(sess))
 
     def test_Session(self) -> None:
-        self.start_coro(sess := Session(
+        self.start_coro(sess := Session[result.List[result.Ok]](
             c=self.c_Serial_HIGH,
-            tsk=task.Sequence(
+            tsk=task.List(
                 spodes_task.ChangeDisconnectControlState(1),
                 spodes_task.SetSerialNumber("1234567890"),
-                spodes_task.CloseSeal()
+                spodes_task.CloseSeal(),
+                err_ignore=True
             )
         ))
         while not sess.complete:
