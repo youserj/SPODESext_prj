@@ -40,15 +40,16 @@ class TestType(unittest.TestCase):
                 port=port1))
         """Serial HIGH"""
 
-    def start_coro(self, sess: Session[result.Result]) -> None:
-        async def coro(sess: Session[result.Result]) -> None:
+    def start_coro[T: result.Result](self, sess: Session[T]) -> None:
+        async def coro(sess: Session[T]) -> None:
             await sess.run()
 
         asyncio.run(coro(sess))
 
     def test_Session(self) -> None:
-        self.start_coro(sess := Session[result.List[result.Ok]](
-            c=self.c_Serial_HIGH,
+        sess: Session[result.List[result.Ok]]
+        self.start_coro(sess := Session(
+            self.c_Serial_HIGH,
             tsk=task.List(
                 spodes_task.ChangeDisconnectControlState(1),
                 spodes_task.SetSerialNumber("1234567890"),
