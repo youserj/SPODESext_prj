@@ -27,10 +27,10 @@ class SetSerialNumber(task.SimpleCopy, task.OK):
 
 @dataclass
 class CloseSeal(task.SimpleCopy, task.OK):
-    msg: str = "Обжатие пломбы"
+    msg: str = "Обжать электронные пломбы"
 
     async def exchange(self, c: Client) -> result.Ok | result.Error:
-        return await task.WriteTranscript(spodes_par.CLOSE_ELECTRIC_SEAL.value, "0", msg="Запись пломбы").exchange(c)
+        return await task.WriteTranscript(spodes_par.CLOSE_ELECTRIC_SEAL.value, "1", msg=self.msg).exchange(c)
 
 
 @dataclass
@@ -48,8 +48,8 @@ class ChangeDisconnectControlState(task.SimpleCopy, task.OK):
         par = dlms_par.DisconnectControl.from_b(self.b)
         if isinstance(res_obj := c.objects.par2obj(par), result.Error):
             return res_obj
-        if not isinstance(res_obj.value, disconnect_control.ControlMode):
-            return result.Error.from_e(TypeError(), msg=f"got {res_obj.value}, expected {disconnect_control.ControlMode}")
+        if not isinstance(res_obj.value, disconnect_control.DisconnectControl):
+            return result.Error.from_e(TypeError(f"got {res_obj.value}, expected {disconnect_control.DisconnectControl}"))
         if isinstance(res := await task.Sequence[disconnect_control.ControlState, disconnect_control.ControlMode](
             task.Par2Data(par.control_state),
             task.Par2Data(par.control_mode),
